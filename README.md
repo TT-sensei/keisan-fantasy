@@ -11,6 +11,7 @@
 | たしひき | たし算・ひき算 | https://tt-sensei.github.io/tashi-hiki/ |
 | クク | 九九 | https://tt-sensei.github.io/kuku-battle-/ |
 | わりざん | わり算 | https://tt-sensei.github.io/warizanland/ |
+| 文章題バトル | 文章題 | https://tt-sensei.github.io/bunsyo-dai/ |
 
 ### ひっ算バトル
 
