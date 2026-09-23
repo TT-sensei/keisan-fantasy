@@ -257,6 +257,7 @@ h1{
   grid-template-columns:repeat(3,1fr);
   gap:11px;
 }
+.quest-list.hissan-quests{grid-template-columns:repeat(4,1fr)}
 .quest{
   min-height:136px;
   padding:16px;
@@ -297,72 +298,6 @@ h1{
   font-size:.8rem;
   font-weight:800;
   color:#f6d98e;
-}
-
-.hissan-section{
-  margin-top:18px;
-  padding:26px;
-  border:1px solid var(--line);
-  border-radius:26px;
-  background:linear-gradient(180deg,rgba(20,33,58,.96),rgba(14,23,40,.96));
-  box-shadow:0 16px 42px rgba(0,0,0,.2);
-}
-.section-kicker{
-  color:var(--gold);
-  font-size:.76rem;
-  font-weight:900;
-  letter-spacing:.1em;
-}
-.hissan-head{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:18px;
-  margin-bottom:16px;
-}
-.hissan-head h2{
-  margin:3px 0 0;
-  font-size:clamp(1.45rem,3vw,2.15rem);
-}
-.hissan-head p{
-  margin:0;
-  max-width:520px;
-  color:var(--muted);
-  font-size:.92rem;
-}
-.hissan-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-}
-.forge{
-  min-height:190px;
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:18px;
-  background:
-    linear-gradient(180deg,rgba(27,45,75,.94),rgba(16,27,48,.98));
-}
-.forge-symbol{
-  font-size:2.25rem;
-  font-weight:900;
-  color:#f4f7ff;
-}
-.forge h3{margin:16px 0 3px;font-size:1.1rem}
-.forge p{margin:0;color:#93a3bc;font-size:.8rem}
-.forge a{
-  position:absolute;
-  left:18px;right:18px;bottom:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding-top:12px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:#e8c873;
-  font-size:.8rem;
-  font-weight:900;
 }
 
 .special{
@@ -424,7 +359,7 @@ footer{
 }
 
 @media (min-width:820px){
-  .quest-map{grid-template-columns:1fr 1fr}
+  .quest-map{grid-template-columns:1fr}
 }
 @media (max-width:819px){
   .connector{display:none}
@@ -542,7 +477,7 @@ footer{
           <h3>ひっ算バトル</h3>
           <p>位をそろえて、順番を考えて。計算の力を、バトルの中で使ってみよう。</p>
         </div>
-        <div class="quest-list">
+        <div class="quest-list hissan-quests">
           <a class="quest" href="https://tt-sensei.github.io/tashizan-hissan/" target="_blank" rel="noopener">
             <div><div class="quest-symbol">＋</div><h4>足し算ひっ算</h4><p>くり上がり</p></div>
             <div class="quest-go"><span>挑戦する</span><span>↗</span></div>
@@ -558,42 +493,6 @@ footer{
         </div>
       </div>
     </article>
-  </section>
-
-  <section class="wrap hissan-section" aria-labelledby="hissan-title">
-    <div class="hissan-head">
-      <div>
-        <div class="section-kicker">BATTLE FORGE</div>
-        <h2 id="hissan-title">もうひとつ、筆算の冒険へ</h2>
-      </div>
-      <p>4つの計算をそろえて用意。今、練習したいものをすぐに選べます。</p>
-    </div>
-    <div class="hissan-grid">
-      <article class="forge">
-        <div class="forge-symbol">＋</div>
-        <h3>足し算ひっ算</h3>
-        <p>くり上がりを使う筆算</p>
-        <a href="https://tt-sensei.github.io/tashizan-hissan/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
-      </article>
-      <article class="forge">
-        <div class="forge-symbol">−</div>
-        <h3>引き算ひっ算</h3>
-        <p>くり下がりを使う筆算</p>
-        <a href="https://tt-sensei.github.io/hikizan-hissan/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
-      </article>
-      <article class="forge">
-        <div class="forge-symbol">×</div>
-        <h3>掛け算ひっ算</h3>
-        <p>かけ算の筆算</p>
-        <a href="https://tt-sensei.github.io/magical-kakezan/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
-      </article>
-      <article class="forge">
-        <div class="forge-symbol">÷</div>
-        <h3>割り算ひっ算</h3>
-        <p>わり算の筆算</p>
-        <a href="https://tt-sensei.github.io/warizanbattle/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
-      </article>
-    </div>
   </section>
 
   <section class="wrap special" id="special">
