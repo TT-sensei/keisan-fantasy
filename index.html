@@ -1,339 +1,616 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#121a2f">
-  <meta name="description" content="計算バトル・ファンタジーの入口。たし算・ひき算・かけ算・わり算を、バトルしながら練習できます。">
-  <title>計算バトル・ファンタジー｜入口</title>
-  <style>
-    :root{
-      --bg:#0c1222;
-      --panel:#131d34;
-      --panel-2:#182641;
-      --line:rgba(255,255,255,.13);
-      --text:#f7f9ff;
-      --muted:#b9c4db;
-      --accent:#ffd36b;
-      --accent-2:#7cc8ff;
-      --shadow:0 18px 50px rgba(0,0,0,.28);
-      --radius:22px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      background:
-        radial-gradient(circle at 20% 0%,rgba(90,120,220,.18),transparent 34%),
-        radial-gradient(circle at 90% 15%,rgba(255,190,90,.12),transparent 28%),
-        var(--bg);
-      color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",YuGothic,Meiryo,sans-serif;
-      line-height:1.6;
-    }
-    a{color:inherit;text-decoration:none}
-    .wrap{width:min(1180px,calc(100% - 32px));margin:auto}
-    .hero{
-      min-height:clamp(520px,72vh,760px);
-      display:grid;
-      place-items:center;
-      padding:28px 0 20px;
-    }
-    .hero-card{
-      position:relative;
-      width:100%;
-      overflow:hidden;
-      border:1px solid var(--line);
-      border-radius:30px;
-      background:linear-gradient(180deg,rgba(20,31,55,.88),rgba(10,16,30,.95));
-      box-shadow:var(--shadow);
-      isolation:isolate;
-    }
-    .hero-art{
-      width:100%;
-      height:clamp(300px,44vw,520px);
-      display:block;
-      object-fit:cover;
-      object-position:center 58%;
-      filter:saturate(.96) contrast(1.03);
-    }
-    .hero-shade{
-      position:absolute;
-      inset:auto 0 0;
-      height:58%;
-      background:linear-gradient(180deg,transparent 0%,rgba(8,13,24,.22) 18%,rgba(8,13,24,.95) 86%);
-      z-index:1;
-    }
-    .hero-copy{
-      position:absolute;
-      inset:auto 0 0;
-      z-index:2;
-      padding:28px 30px 30px;
-    }
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 11px;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:999px;
-      background:rgba(8,13,24,.55);
-      color:#e2e9fb;
-      font-size:.83rem;
-      letter-spacing:.08em;
-      backdrop-filter:blur(8px);
-    }
-    h1{
-      margin:10px 0 4px;
-      font-size:clamp(2rem,5vw,4rem);
-      line-height:1.05;
-      letter-spacing:.01em;
-    }
-    .hero-copy p{
-      margin:0;
-      max-width:760px;
-      color:#d7def0;
-      font-size:clamp(.98rem,2vw,1.18rem);
-    }
-    main{padding:10px 0 60px}
-    .section{
-      margin-top:34px;
-      scroll-margin-top:18px;
-    }
-    .section-head{
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:14px;
-    }
-    .section-title{
-      margin:0;
-      font-size:clamp(1.3rem,2.6vw,2rem);
-      letter-spacing:.02em;
-    }
-    .section-note{margin:0;color:var(--muted);font-size:.9rem}
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:16px;
-    }
-    .grid.hissan{grid-template-columns:repeat(4,minmax(0,1fr))}
-    .game{
-      min-height:188px;
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:linear-gradient(180deg,var(--panel-2),var(--panel));
-      box-shadow:0 10px 28px rgba(0,0,0,.18);
-      transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
-      touch-action:manipulation;
-    }
-    .game:hover,.game:focus-visible{
-      transform:translateY(-3px);
-      border-color:rgba(255,211,107,.45);
-      box-shadow:0 16px 34px rgba(0,0,0,.24);
-      outline:none;
-    }
-    .tag{
-      display:inline-block;
-      width:max-content;
-      padding:4px 9px;
-      border-radius:999px;
-      background:rgba(124,200,255,.12);
-      color:#cdeaff;
-      font-size:.78rem;
-      font-weight:700;
-    }
-    .game h3{margin:10px 0 4px;font-size:1.34rem}
-    .game p{margin:0;color:var(--muted);font-size:.92rem}
-    .go{
-      margin-top:18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      color:#fff;
-      font-weight:700;
-      font-size:.96rem;
-    }
-    .arrow{
-      display:grid;
-      place-items:center;
-      width:38px;
-      height:38px;
-      flex:0 0 38px;
-      border-radius:50%;
-      background:rgba(255,211,107,.14);
-      color:var(--accent);
-      font-size:1.2rem;
-    }
-    .hissan .game{min-height:176px}
-    .guide{
-      margin-top:36px;
-      padding:20px 22px;
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:rgba(19,29,52,.72);
-    }
-    .guide p{margin:0;color:var(--muted)}
-    .guide strong{color:var(--text)}
-    footer{
-      padding:0 0 36px;
-      text-align:center;
-      color:#8793ae;
-      font-size:.8rem;
-    }
-    @media (max-width:900px){
-      .grid,.grid.hissan{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .hero{min-height:560px}
-    }
-    @media (max-width:640px){
-      .wrap{width:min(100% - 20px,1180px)}
-      .hero{min-height:510px;padding-top:10px}
-      .hero-card{border-radius:22px}
-      .hero-art{height:360px;object-position:center 55%}
-      .hero-shade{height:72%}
-      .hero-copy{padding:22px 18px 20px}
-      .grid,.grid.hissan{grid-template-columns:1fr}
-      .game,.hissan .game{min-height:154px}
-      .section-head{align-items:start;flex-direction:column;gap:4px}
-    }
-    @media (prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}
-      .game{transition:none}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="計算バトル・ファンタジー。たし算・ひき算・かけ算・わり算、筆算、文章題へ。">
+<title>計算バトル・ファンタジー</title>
+<style>
+:root{
+  --ink:#eef3ff;
+  --muted:#aebbd3;
+  --gold:#f4c86a;
+  --sky:#89cfff;
+  --panel:#121d32;
+  --panel2:#182743;
+  --line:rgba(255,255,255,.12);
+  --soft:rgba(255,255,255,.06);
+  --shadow:0 24px 65px rgba(0,0,0,.28);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 5%,rgba(91,133,255,.16),transparent 28%),
+    radial-gradient(circle at 88% 17%,rgba(255,196,94,.1),transparent 24%),
+    #0b1220;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",YuGothic,Meiryo,sans-serif;
+  line-height:1.55;
+}
+a{color:inherit;text-decoration:none}
+button,a{touch-action:manipulation}
+.wrap{width:min(1160px,calc(100% - 28px));margin:auto}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  backdrop-filter:blur(14px);
+  background:rgba(8,14,26,.72);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.topbar-inner{
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.brand{
+  font-weight:800;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+.brand small{
+  color:#8090ad;
+  font-weight:600;
+  font-size:.72rem;
+  margin-left:7px;
+}
+.nav{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  padding:8px 11px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:#d5dded;
+  font-size:.8rem;
+  white-space:nowrap;
+  background:rgba(255,255,255,.035);
+}
+
+.hero{
+  padding:18px 0 8px;
+}
+.hero-card{
+  position:relative;
+  min-height:min(690px,78vh);
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+  background:#111a2c;
+}
+.hero-img{
+  width:100%;
+  height:100%;
+  min-height:min(690px,78vh);
+  display:block;
+  object-fit:cover;
+  object-position:center 54%;
+}
+.hero-card:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(7,13,25,.92) 0%,rgba(7,13,25,.68) 30%,rgba(7,13,25,.16) 65%,rgba(7,13,25,.25) 100%),
+    linear-gradient(0deg,rgba(7,13,25,.82) 0%,transparent 48%);
+  pointer-events:none;
+}
+.hero-copy{
+  position:absolute;
+  z-index:2;
+  left:clamp(22px,5vw,62px);
+  bottom:clamp(24px,6vw,62px);
+  width:min(670px,calc(100% - 44px));
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  background:rgba(6,11,21,.48);
+  color:#d9e4f7;
+  font-size:.78rem;
+  letter-spacing:.08em;
+  backdrop-filter:blur(8px);
+}
+.kicker:before{
+  content:"";
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 15px rgba(244,200,106,.7);
+}
+h1{
+  margin:13px 0 8px;
+  font-size:clamp(2.2rem,6vw,4.8rem);
+  line-height:.98;
+  letter-spacing:-.025em;
+}
+.lead{
+  margin:0;
+  max-width:620px;
+  color:#d6dfef;
+  font-size:clamp(1rem,2vw,1.2rem);
+}
+.hero-actions{
+  margin-top:22px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.hero-btn{
+  min-height:48px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:0 17px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(9,16,30,.62);
+  font-weight:800;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+.hero-btn.primary{
+  color:#182033;
+  background:linear-gradient(180deg,#ffe49a,#efbd52);
+  border-color:transparent;
+}
+.hero-btn span{font-size:1.1rem}
+
+.trail-intro{
+  padding:28px 4px 12px;
+}
+.trail-intro h2{
+  margin:0;
+  font-size:clamp(1.55rem,3vw,2.25rem);
+}
+.trail-intro p{
+  margin:5px 0 0;
+  color:var(--muted);
+}
+.quest-map{
+  position:relative;
+  display:grid;
+  gap:18px;
+  margin-top:12px;
+}
+.connector{
+  position:absolute;
+  left:13%;
+  right:13%;
+  top:50%;
+  height:2px;
+  background:linear-gradient(90deg,rgba(244,200,106,.08),rgba(244,200,106,.4),rgba(244,200,106,.08));
+  box-shadow:0 0 16px rgba(244,200,106,.12);
+}
+.realm{
+  position:relative;
+  min-height:300px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:#111a2e;
+  box-shadow:0 16px 42px rgba(0,0,0,.2);
+}
+.realm-bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.2;
+  filter:saturate(.8);
+}
+.realm:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(10,17,30,.96),rgba(10,17,30,.72) 52%,rgba(10,17,30,.88));
+}
+.realm-content{
+  position:relative;
+  z-index:2;
+  min-height:300px;
+  padding:24px;
+  display:grid;
+  grid-template-columns:1fr 1.7fr;
+  gap:20px;
+  align-items:center;
+}
+.realm-copy h3{
+  margin:0 0 5px;
+  font-size:clamp(1.5rem,3vw,2rem);
+}
+.realm-copy p{
+  margin:0;
+  color:var(--muted);
+  max-width:420px;
+}
+.realm-mark{
+  display:inline-grid;
+  place-items:center;
+  width:66px;height:66px;
+  margin-bottom:12px;
+  border:1px solid rgba(244,200,106,.3);
+  border-radius:18px;
+  background:rgba(244,200,106,.08);
+  color:var(--gold);
+  font-size:2rem;
+  font-weight:900;
+  box-shadow:inset 0 0 30px rgba(244,200,106,.05);
+}
+.quest-list{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:11px;
+}
+.quest{
+  min-height:136px;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
+  background:rgba(18,30,52,.82);
+  transition:transform .16s ease,border-color .16s ease,background .16s ease;
+}
+.quest:hover,.quest:focus-visible{
+  transform:translateY(-3px);
+  border-color:rgba(244,200,106,.38);
+  background:rgba(24,39,67,.96);
+  outline:none;
+}
+.quest-symbol{
+  color:#dbe8fc;
+  font-size:1.7rem;
+  font-weight:900;
+  line-height:1;
+}
+.quest h4{
+  margin:9px 0 2px;
+  font-size:1.05rem;
+}
+.quest p{
+  margin:0;
+  color:#99a8c1;
+  font-size:.82rem;
+}
+.quest-go{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:12px;
+  font-size:.8rem;
+  font-weight:800;
+  color:#f6d98e;
+}
+
+.hissan-section{
+  margin-top:18px;
+  padding:26px;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:linear-gradient(180deg,rgba(20,33,58,.96),rgba(14,23,40,.96));
+  box-shadow:0 16px 42px rgba(0,0,0,.2);
+}
+.section-kicker{
+  color:var(--gold);
+  font-size:.76rem;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+.hissan-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:16px;
+}
+.hissan-head h2{
+  margin:3px 0 0;
+  font-size:clamp(1.45rem,3vw,2.15rem);
+}
+.hissan-head p{
+  margin:0;
+  max-width:520px;
+  color:var(--muted);
+  font-size:.92rem;
+}
+.hissan-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.forge{
+  min-height:190px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:18px;
+  background:
+    linear-gradient(180deg,rgba(27,45,75,.94),rgba(16,27,48,.98));
+}
+.forge-symbol{
+  font-size:2.25rem;
+  font-weight:900;
+  color:#f4f7ff;
+}
+.forge h3{margin:16px 0 3px;font-size:1.1rem}
+.forge p{margin:0;color:#93a3bc;font-size:.8rem}
+.forge a{
+  position:absolute;
+  left:18px;right:18px;bottom:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:#e8c873;
+  font-size:.8rem;
+  font-weight:900;
+}
+
+.special{
+  margin-top:18px;
+  position:relative;
+  overflow:hidden;
+  min-height:215px;
+  border:1px solid rgba(137,207,255,.18);
+  border-radius:26px;
+  background:#10203a;
+}
+.special img{
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 48%;
+  opacity:.22;
+}
+.special:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(9,19,34,.95),rgba(9,19,34,.72),rgba(9,19,34,.85));
+}
+.special-content{
+  position:relative;
+  z-index:2;
+  padding:27px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+}
+.special h2{
+  margin:3px 0 4px;
+  font-size:clamp(1.45rem,3vw,2.1rem);
+}
+.special p{margin:0;color:#a9bad4;max-width:650px}
+.special-link{
+  flex:0 0 auto;
+  min-height:50px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:0 18px;
+  border-radius:14px;
+  background:rgba(137,207,255,.12);
+  border:1px solid rgba(137,207,255,.26);
+  color:#dff1ff;
+  font-weight:900;
+}
+
+footer{
+  padding:30px 0 40px;
+  color:#6f7e97;
+  text-align:center;
+  font-size:.76rem;
+}
+
+@media (min-width:820px){
+  .quest-map{grid-template-columns:1fr 1fr}
+}
+@media (max-width:819px){
+  .connector{display:none}
+  .realm-content{grid-template-columns:1fr}
+  .quest-list{grid-template-columns:repeat(3,1fr)}
+  .hissan-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:620px){
+  .wrap{width:min(100% - 18px,1160px)}
+  .topbar-inner{min-height:52px}
+  .brand small{display:none}
+  .nav a{padding:7px 10px;font-size:.75rem}
+  .hero{padding-top:9px}
+  .hero-card{min-height:590px;border-radius:22px}
+  .hero-img{min-height:590px;object-position:center 52%}
+  .hero-card:after{
+    background:
+      linear-gradient(0deg,rgba(7,13,25,.94) 0%,rgba(7,13,25,.34) 62%,rgba(7,13,25,.12) 100%);
+  }
+  .hero-copy{left:18px;bottom:20px;width:calc(100% - 36px)}
+  h1{font-size:clamp(2.3rem,12vw,3.6rem)}
+  .lead{font-size:.98rem}
+  .hero-actions{gap:8px}
+  .hero-btn{min-height:46px;padding:0 14px;font-size:.9rem}
+  .trail-intro{padding-top:24px}
+  .quest-map{gap:13px}
+  .realm,.realm-content{min-height:auto}
+  .realm-content{padding:19px}
+  .realm-mark{width:58px;height:58px}
+  .quest-list{grid-template-columns:1fr}
+  .quest{min-height:116px}
+  .hissan-section{padding:20px}
+  .hissan-head{display:block}
+  .hissan-head p{margin-top:7px}
+  .hissan-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .forge{min-height:164px;padding:14px}
+  .forge a{left:14px;right:14px;bottom:12px}
+  .special-content{padding:20px;display:block}
+  .special-link{margin-top:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .quest{transition:none}
+}
+</style>
 </head>
 <body>
-  <header class="hero">
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">計算バトル・ファンタジー <small>CALCULATION QUEST</small></div>
+    <nav class="nav" aria-label="ページ内ナビゲーション">
+      <a href="#simple">計算</a>
+      <a href="#hissan">ひっ算</a>
+      <a href="#special">文章題</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
     <div class="wrap">
       <div class="hero-card">
-        <img
-          class="hero-art"
-          src="https://tt-sensei.github.io/navi-character-/assets/web/fantasy/groups/group-fantasy-town.webp"
-          alt="ファンタジーの町・出発"
-          loading="eager"
-        >
-        <div class="hero-shade" aria-hidden="true"></div>
+        <img class="hero-img" src="https://tt-sensei.github.io/navi-character-/assets/web/fantasy/groups/group-fantasy-town.webp" alt="ファンタジーの町・出発" loading="eager">
         <div class="hero-copy">
-          <span class="eyebrow">NAVI CHARACTER × EDU-KIT</span>
-          <h1>計算バトル・ファンタジー</h1>
-          <p>計算して、バトルして、もっとできる。たし算・ひき算・かけ算・わり算、文章題の冒険へ。</p>
+          <div class="kicker">NAVI CHARACTER × EDU-KIT</div>
+          <h1>計算バトル・<br>ファンタジー</h1>
+          <p class="lead">ファンタジーの町から出発して、計算の冒険へ。たし算、ひき算、かけ算、わり算。今日の挑戦を選ぼう。</p>
+          <div class="hero-actions">
+            <a class="hero-btn primary" href="#simple"><span>→</span> 冒険先をえらぶ</a>
+            <a class="hero-btn" href="#hissan"><span>◇</span> ひっ算へ</a>
+          </div>
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <div class="wrap">
-      <section class="section" id="simple">
-        <div class="section-head">
-          <h2 class="section-title">たんじゅんな計算</h2>
-          <p class="section-note">まずは計算そのものに集中</p>
+  <section class="wrap trail-intro" id="simple">
+    <h2>町を出たら、どこへ行く？</h2>
+    <p>計算の種類ごとに、冒険先が分かれています。</p>
+  </section>
+
+  <section class="wrap quest-map" aria-label="計算の冒険先">
+    <div class="connector" aria-hidden="true"></div>
+
+    <article class="realm">
+      <img class="realm-bg" src="https://tt-sensei.github.io/navi-character-/assets/web/fantasy/groups/group-fantasy-adventure.webp" alt="" aria-hidden="true" loading="lazy">
+      <div class="realm-content">
+        <div class="realm-copy">
+          <div class="realm-mark">＋</div>
+          <h3>たんじゅんな計算</h3>
+          <p>まずは計算そのものをテンポよく。できるだけたくさん、気持ちよく挑戦しよう。</p>
         </div>
-        <div class="grid">
-          <a class="game" href="https://tt-sensei.github.io/tashi-hiki/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">たし算・ひき算</span>
-              <h3>たしひき</h3>
-              <p>たし算とひき算を、シンプルなバトルで練習。</p>
-            </div>
-            <div class="go"><span>ぼうけんをはじめる</span><span class="arrow">→</span></div>
+        <div class="quest-list">
+          <a class="quest" href="https://tt-sensei.github.io/tashi-hiki/" target="_blank" rel="noopener">
+            <div><div class="quest-symbol">＋−</div><h4>たしひき</h4><p>たし算・ひき算</p></div>
+            <div class="quest-go"><span>出発する</span><span>↗</span></div>
           </a>
-
-          <a class="game" href="https://tt-sensei.github.io/kuku-battle-/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">かけ算</span>
-              <h3>クク</h3>
-              <p>九九をくり返し練習して、バトルに勝とう。</p>
-            </div>
-            <div class="go"><span>ぼうけんをはじめる</span><span class="arrow">→</span></div>
+          <a class="quest" href="https://tt-sensei.github.io/kuku-battle-/" target="_blank" rel="noopener">
+            <div><div class="quest-symbol">×</div><h4>クク</h4><p>かけ算・九九</p></div>
+            <div class="quest-go"><span>出発する</span><span>↗</span></div>
           </a>
-
-          <a class="game" href="https://tt-sensei.github.io/warizanland/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">わり算</span>
-              <h3>わりざん</h3>
-              <p>わり算の計算力を、ファンタジーの世界でみがく。</p>
-            </div>
-            <div class="go"><span>ぼうけんをはじめる</span><span class="arrow">→</span></div>
+          <a class="quest" href="https://tt-sensei.github.io/warizanland/" target="_blank" rel="noopener">
+            <div><div class="quest-symbol">÷</div><h4>わりざん</h4><p>わり算</p></div>
+            <div class="quest-go"><span>出発する</span><span>↗</span></div>
           </a>
         </div>
-      </section>
+      </div>
+    </article>
 
-      <section class="section" id="bunsyodai">
-        <div class="section-head">
-          <h2 class="section-title">文章題</h2>
-          <p class="section-note">場面を考えて、計算につなげる</p>
+    <article class="realm" id="hissan">
+      <img class="realm-bg" src="https://tt-sensei.github.io/navi-character-/assets/web/fantasy/groups/group-fantasy-battle.webp" alt="" aria-hidden="true" loading="lazy">
+      <div class="realm-content">
+        <div class="realm-copy">
+          <div class="realm-mark">▦</div>
+          <h3>ひっ算バトル</h3>
+          <p>位をそろえて、順番を考えて。計算の力を、バトルの中で使ってみよう。</p>
         </div>
-        <div class="grid">
-          <a class="game" href="https://tt-sensei.github.io/bunsyo-dai/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">文章題</span>
-              <h3>文章題バトル</h3>
-              <p>問題文を読んで、何を計算すればよいか考えよう。</p>
-            </div>
-            <div class="go"><span>文章題へ</span><span class="arrow">→</span></div>
+        <div class="quest-list">
+          <a class="quest" href="https://tt-sensei.github.io/tashizan-hissan/" target="_blank" rel="noopener">
+            <div><div class="quest-symbol">＋</div><h4>足し算ひっ算</h4><p>くり上がり</p></div>
+            <div class="quest-go"><span>挑戦する</span><span>↗</span></div>
           </a>
-        </div>
-      </section>
-
-      <section class="section" id="hissan">
-        <div class="section-head">
-          <h2 class="section-title">ひっ算バトル</h2>
-          <p class="section-note">位をそろえて、ていねいに計算</p>
-        </div>
-        <div class="grid hissan">
-          <a class="game" href="https://tt-sensei.github.io/tashizan-hissan/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">たし算</span>
-              <h3>足し算ひっ算</h3>
-              <p>くり上がりを意識して、筆算の力をみがく。</p>
-            </div>
-            <div class="go"><span>ひっ算へ</span><span class="arrow">→</span></div>
+          <a class="quest" href="https://tt-sensei.github.io/hikizan-hissan/" target="_blank" rel="noopener">
+            <div><div class="quest-symbol">−</div><h4>引き算ひっ算</h4><p>くり下がり</p></div>
+            <div class="quest-go"><span>挑戦する</span><span>↗</span></div>
           </a>
-
-          <a class="game" href="https://tt-sensei.github.io/hikizan-hissan/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">ひき算</span>
-              <h3>引き算ひっ算</h3>
-              <p>くり下がりを使う計算を、バトル形式で練習。</p>
-            </div>
-            <div class="go"><span>ひっ算へ</span><span class="arrow">→</span></div>
-          </a>
-
-          <a class="game" href="https://tt-sensei.github.io/magical-kakezan/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">かけ算</span>
-              <h3>掛け算ひっ算</h3>
-              <p>かけ算の筆算を、魔法のバトルで練習。</p>
-            </div>
-            <div class="go"><span>ひっ算へ</span><span class="arrow">→</span></div>
-          </a>
-
-          <a class="game" href="https://tt-sensei.github.io/warizanbattle/" target="_blank" rel="noopener">
-            <div>
-              <span class="tag">わり算</span>
-              <h3>割り算ひっ算</h3>
-              <p>わり算の筆算を、順番を意識しながら練習。</p>
-            </div>
-            <div class="go"><span>ひっ算へ</span><span class="arrow">→</span></div>
+          <a class="quest" href="https://tt-sensei.github.io/magical-kakezan/" target="_blank" rel="noopener">
+            <div><div class="quest-symbol">×</div><h4>掛け算ひっ算</h4><p>かけ算の筆算</p></div>
+            <div class="quest-go"><span>挑戦する</span><span>↗</span></div>
           </a>
         </div>
-      </section>
+      </div>
+    </article>
+  </section>
 
-      <section class="guide">
-        <p><strong>この入口は、8つの計算学習ゲームをまとめて選べる場所です。</strong>　計算だけをくり返したいときは「たんじゅんな計算」、位をそろえて考えたいときは「ひっ算バトル」から選べます。</p>
-      </section>
+  <section class="wrap hissan-section" aria-labelledby="hissan-title">
+    <div class="hissan-head">
+      <div>
+        <div class="section-kicker">BATTLE FORGE</div>
+        <h2 id="hissan-title">もうひとつ、筆算の冒険へ</h2>
+      </div>
+      <p>4つの計算をそろえて用意。今、練習したいものをすぐに選べます。</p>
     </div>
-  </main>
+    <div class="hissan-grid">
+      <article class="forge">
+        <div class="forge-symbol">＋</div>
+        <h3>足し算ひっ算</h3>
+        <p>くり上がりを使う筆算</p>
+        <a href="https://tt-sensei.github.io/tashizan-hissan/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
+      </article>
+      <article class="forge">
+        <div class="forge-symbol">−</div>
+        <h3>引き算ひっ算</h3>
+        <p>くり下がりを使う筆算</p>
+        <a href="https://tt-sensei.github.io/hikizan-hissan/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
+      </article>
+      <article class="forge">
+        <div class="forge-symbol">×</div>
+        <h3>掛け算ひっ算</h3>
+        <p>かけ算の筆算</p>
+        <a href="https://tt-sensei.github.io/magical-kakezan/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
+      </article>
+      <article class="forge">
+        <div class="forge-symbol">÷</div>
+        <h3>割り算ひっ算</h3>
+        <p>わり算の筆算</p>
+        <a href="https://tt-sensei.github.io/warizanbattle/" target="_blank" rel="noopener"><span>ひっ算へ</span><span>↗</span></a>
+      </article>
+    </div>
+  </section>
 
-  <footer>
-    <div class="wrap">計算バトル・ファンタジー　｜　NAVI CHARACTER × EDU-KIT</div>
-  </footer>
+  <section class="wrap special" id="special">
+    <img src="https://tt-sensei.github.io/navi-character-/assets/web/fantasy/groups/group-fantasy-adventure.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="special-content">
+      <div>
+        <div class="section-kicker">SPECIAL QUEST</div>
+        <h2>文章題のクエスト</h2>
+        <p>問題文を読んで、どんな計算を使うのか考える。計算だけじゃない、もう一つの冒険。</p>
+      </div>
+      <a class="special-link" href="https://tt-sensei.github.io/bunsyo-dai/" target="_blank" rel="noopener">文章題へ <span>↗</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">計算バトル・ファンタジー　｜　NAVI CHARACTER × EDU-KIT</div>
+</footer>
 </body>
 </html>
